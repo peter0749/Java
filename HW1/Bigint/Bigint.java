@@ -120,6 +120,10 @@ class Bigint {
         }
         return new Bigint(temp);
     }
+    public Bigint subBigint(int from, int to) { //exclusive-to
+        java.util.ArrayList<Integer> temp = new java.util.ArrayList<Integer> (this.data.subList(from, to));
+        return new Bigint(temp);
+    }
     /*
        public Bigint Div (Bigint ext) {
 // not implement yet
