@@ -1,4 +1,4 @@
-class Bigint {
+class HugeInteger {
     // private:
     private java.util.ArrayList<Integer> data; // Initialize in constructor
     private int dataLength;
@@ -7,16 +7,15 @@ class Bigint {
         for (i=this.data.size()-1; i>=0 && this.data.get(i)==0; --i);
         this.dataLength = i+1;
     }
-    private void strToBigint(String str) {
-        char [] charArr = str.toCharArray();
+    private void parse(String str) {
         int strLen = str.length();
         for (int i=0, j=strLen-1; j>=0; ++i, --j) {
-            this.data.add((int)(charArr[j]) - '0'); // push into array
+            this.data.add((int)(str.charAt(j)) - '0'); // push into array
         }
         this.dataLength = strLen;
         this.regulate();
     }
-    private int _cmp(Bigint ext) {
+    private int _cmp(HugeInteger ext) {
         if ( this.dataLength > ext.dataLength ) return 1; // this > ext
         else if (this.dataLength < ext.dataLength ) return -1; // this < ext
         // same degree
@@ -47,25 +46,31 @@ class Bigint {
         return val;
         // not implement yet
     }
-    public boolean isGreaterThan (Bigint ext) {
+    public boolean isGreaterThan (HugeInteger ext) {
         return this._cmp(ext) > 0;
     }
-    public boolean isLessThan (Bigint ext) {
+    public boolean isLessThan (HugeInteger ext) {
         return this._cmp(ext) < 0;
     }
-    public boolean isEqualTo (Bigint ext) {
+    public boolean isEqualTo (HugeInteger ext) {
         return this._cmp(ext) == 0;
     }
-    public boolean isNotEqualTo (Bigint ext) {
+    public boolean isNotEqualTo (HugeInteger ext) {
         return this._cmp(ext) != 0;
     }
-    public boolean isGreaterThanOrEqulTo (Bigint ext) {
+    public boolean isGreaterThanOrEqualTo (HugeInteger ext) {
         return this._cmp(ext) >= 0;
     }
-    public boolean isLessThanOrEqulTo (Bigint ext) {
+    public boolean isLessThanOrEqualTo (HugeInteger ext) {
         return this._cmp(ext) <= 0;
     }
-    public Bigint Add (Bigint ext) {
+    public boolean isZero () {
+        for(int i=this.dataLength-1; i>=0; --i) {
+            if (this.data.get(i)!=0) return false;
+        }
+        return true;
+    }
+    public HugeInteger add (HugeInteger ext) {
         // not implement yet
         int maxLen = Math.max(ext.dataLength,this.dataLength);
         java.util.ArrayList<Integer> temp = new java.util.ArrayList<Integer> (maxLen+2);
@@ -78,11 +83,11 @@ class Bigint {
             temp.set(i+1, temp.get(i+1)+temp.get(i)/10);
             temp.set(i, temp.get(i)%10 );
         }
-        return new Bigint(temp);
+        return new HugeInteger(temp);
     }
-    public Bigint Diff (Bigint ext) {
+    public HugeInteger subtract (HugeInteger ext) {
         // not implement yet
-        Bigint ref1=null, ref2=null;
+        HugeInteger ref1=null, ref2=null;
         if (this.isLessThan(ext)) {
             ref1 = ext;
             ref2 = this;
@@ -102,10 +107,10 @@ class Bigint {
                 temp.set(i, temp.get(i)+10 );
             }
         }
-        return new Bigint(temp);
+        return new HugeInteger(temp);
     }
 
-    public Bigint Mul (Bigint ext) {
+    public HugeInteger multiply (HugeInteger ext) {
         int maxLen = this.dataLength + ext.dataLength;
         java.util.ArrayList<Integer> temp = new java.util.ArrayList<Integer>(maxLen+2);
         for (int i=maxLen; i>=0; --i) temp.add(0);
@@ -118,9 +123,9 @@ class Bigint {
             temp.set ( i+1, temp.get(i+1)+temp.get(i)/10);
             temp.set ( i  , temp.get(i)%10 );
         }
-        return new Bigint(temp);
+        return new HugeInteger(temp);
     }
-    public Bigint mul_int (int k) {
+    public HugeInteger mul_int (int k) {
         int maxLen = this.dataLength;
         java.util.ArrayList<Integer> temp = new java.util.ArrayList<Integer>(maxLen+2);
         for (int i=maxLen; i>=0; --i) temp.add(0);
@@ -131,48 +136,48 @@ class Bigint {
             temp.set(i+1, temp.get(i+1)+temp.get(i)/10);
             temp.set(i  , temp.get(i)%10 );
         }
-        return new Bigint(temp);
+        return new HugeInteger(temp);
     }
-    public Bigint subBigint(int from, int to) { //exclusive-to
+    public HugeInteger subHugeInteger(int from, int to) { //exclusive-to
         java.util.ArrayList<Integer> temp = new java.util.ArrayList<Integer> (this.data.subList(from, to));
-        return new Bigint(temp);
+        return new HugeInteger(temp);
     }
-    public void append(Bigint ext) {
+    public void append(HugeInteger ext) {
         this.data.addAll(ext.data); //append
         this.dataLength += ext.dataLength;
     }
-    public Bigint Div (Bigint ext) {
+    public HugeInteger divide (HugeInteger ext) {
         int Len=this.dataLength - ext.dataLength;
-        if(Len<0) return new Bigint("0");
-        Bigint m = new Bigint(this);
+        if(Len<0) return new HugeInteger("0");
+        HugeInteger m = new HugeInteger(this);
         java.util.ArrayList<Integer> res=new java.util.ArrayList<Integer>();
         for(int i=0; i<=Len; ++i) res.add(0);
         for(int i=Len; i>=0; --i) {
             for(int q=9; q>0; --q) {
-                Bigint t1 = ext.mul_int(q);
-                Bigint t2 = m.subBigint(i, m.dataLength);
-                if( t1.isLessThanOrEqulTo(t2)) {
-                    t1 = t2.Diff(t1);
-                    m = m.subBigint(0,i);
+                HugeInteger t1 = ext.mul_int(q);
+                HugeInteger t2 = m.subHugeInteger(i, m.dataLength);
+                if( t1.isLessThanOrEqualTo(t2)) {
+                    t1 = t2.subtract(t1);
+                    m = m.subHugeInteger(0,i);
                     m.append(t1);
                     res.set(i,q);
                     break;
                 }
             }
         }
-        return new Bigint(res);
+        return new HugeInteger(res);
     }
-    public Bigint Mod (Bigint ext) {
+    public HugeInteger remainder (HugeInteger ext) {
         int Len=this.dataLength - ext.dataLength;
-        Bigint m = new Bigint(this);
+        HugeInteger m = new HugeInteger(this);
         if(Len<0) return m;
         for(int i=Len; i>=0; --i) {
             for(int q=9; q>0; --q) {
-                Bigint t1 = ext.mul_int(q);
-                Bigint t2 = m.subBigint(i, m.dataLength);
-                if( t1.isLessThanOrEqulTo(t2)) {
-                    t1 = t2.Diff(t1);
-                    m = m.subBigint(0,i);
+                HugeInteger t1 = ext.mul_int(q);
+                HugeInteger t2 = m.subHugeInteger(i, m.dataLength);
+                if( t1.isLessThanOrEqualTo(t2)) {
+                    t1 = t2.subtract(t1);
+                    m = m.subHugeInteger(0,i);
                     m.append(t1);
                     break;
                 }
@@ -181,16 +186,16 @@ class Bigint {
         return m;
     }
     // constructor:
-    Bigint(Bigint target) {
+    HugeInteger(HugeInteger target) {
         this.dataLength = target.dataLength;
         this.data = new java.util.ArrayList<Integer>( target.data);
     }
-    Bigint(String str) {
+    HugeInteger(String str) {
         // not implment yet
         this.data = new java.util.ArrayList<Integer> ();
-        this.strToBigint(str);
+        this.parse(str);
     }
-    Bigint(java.util.ArrayList<Integer> arr) {
+    HugeInteger(java.util.ArrayList<Integer> arr) {
         this.data = arr;
         this.dataLength = arr.size();
         this.regulate();
