@@ -17,5 +17,5 @@ Mac OSX 10.12.3
 
 #### 執行
 
-java Main
+`java Main`
 
