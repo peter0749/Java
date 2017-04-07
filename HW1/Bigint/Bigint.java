@@ -120,17 +120,71 @@ class Bigint {
         }
         return new Bigint(temp);
     }
+    public Bigint mul_int (int k) {
+        int maxLen = this.dataLength;
+        java.util.ArrayList<Integer> temp = new java.util.ArrayList<Integer>(maxLen+2);
+        for (int i=maxLen; i>=0; --i) temp.add(0);
+        for (int i=0; i<maxLen; ++i) {
+            temp.set(i, this.data.get(i)*k);
+        }
+        for (int i=0; i<maxLen; ++i) {
+            temp.set(i+1, temp.get(i+1)+temp.get(i)/10);
+            temp.set(i  , temp.get(i)%10 );
+        }
+        return new Bigint(temp);
+    }
     public Bigint subBigint(int from, int to) { //exclusive-to
         java.util.ArrayList<Integer> temp = new java.util.ArrayList<Integer> (this.data.subList(from, to));
         return new Bigint(temp);
     }
-    /*
-       public Bigint Div (Bigint ext) {
-// not implement yet
-       }
-       */
-
+    public void append(Bigint ext) {
+        this.data.addAll(ext.data); //append
+        this.dataLength += ext.dataLength;
+    }
+    public Bigint Div (Bigint ext) {
+        int Len=this.dataLength - ext.dataLength;
+        if(Len<0) return new Bigint("0");
+        Bigint m = new Bigint(this);
+        java.util.ArrayList<Integer> res=new java.util.ArrayList<Integer>();
+        for(int i=0; i<=Len; ++i) res.add(0);
+        for(int i=Len; i>=0; --i) {
+            for(int q=9; q>0; --q) {
+                Bigint t1 = ext.mul_int(q);
+                Bigint t2 = m.subBigint(i, m.dataLength);
+                if( t1.isLessThanOrEqulTo(t2)) {
+                    t1 = t2.Diff(t1);
+                    m = m.subBigint(0,i);
+                    m.append(t1);
+                    res.set(i,q);
+                    break;
+                }
+            }
+        }
+        return new Bigint(res);
+    }
+    public Bigint Mod (Bigint ext) {
+        int Len=this.dataLength - ext.dataLength;
+        Bigint m = new Bigint(this);
+        if(Len<0) return m;
+        for(int i=Len; i>=0; --i) {
+            for(int q=9; q>0; --q) {
+                Bigint t1 = ext.mul_int(q);
+                Bigint t2 = m.subBigint(i, m.dataLength);
+                if( t1.isLessThanOrEqulTo(t2)) {
+                    t1 = t2.Diff(t1);
+                    m = m.subBigint(0,i);
+                    m.append(t1);
+                    break;
+                }
+            }
+        }
+        return m;
+    }
     // constructor:
+    Bigint(Bigint target) {
+        this.dataLength = target.dataLength;
+        this.data = new java.util.ArrayList<Integer>( target.data);
+    }
     Bigint(String str) {
         // not implment yet
         this.data = new java.util.ArrayList<Integer> ();

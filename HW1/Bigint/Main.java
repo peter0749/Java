@@ -20,5 +20,7 @@ public class Main {
         System.out.println (a+" + "+b+" = "+a.Add(b));
         System.out.println ("| "+a+" - "+b+" | = "+a.Diff(b));
         System.out.println (a+" * "+b+" = "+a.Mul(b));
+        System.out.println (a+" / "+b+" = "+a.Div(b));
+        System.out.println (a+" % "+b+" = "+a.Mod(b));
     }
 };
