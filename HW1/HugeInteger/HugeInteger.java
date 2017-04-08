@@ -39,7 +39,7 @@ class HugeInteger {
     }
     public double toDouble() {
         double val=0.0;
-        for (int i=0; i<this.dataLength; ++i) {
+        for (int i=this.dataLength-1; i>=0; --i) {
             val*=10.0;
             val+=(this.data.get(i));
         }

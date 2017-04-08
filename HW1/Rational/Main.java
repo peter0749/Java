@@ -12,8 +12,8 @@ public class Main {
         int secDeno=Integer.parseInt(args[3]);
         Rational ret1 = new Rational(firstNum, firstDeno);
         Rational ret2 = new Rational(secNum, secDeno);
-        System.out.println( "Decimal form:\t" + ret1.DecimalString( Integer.parseInt(args[4]) ));
-        System.out.println( "Decimal form:\t" + ret2.DecimalString( Integer.parseInt(args[4]) ));
+        System.out.println( "Decimal form:\t" + ret1 + " = " + ret1.DecimalString( Integer.parseInt(args[4]) ));
+        System.out.println( "Decimal form:\t" + ret2 + " = " + ret2.DecimalString( Integer.parseInt(args[4]) ));
         System.out.println( "Add:\t\t" + ret1 + " + " + ret2 + " = " + Rational.Add(ret1,ret2) );
         System.out.println( "Subtract:\t" + ret1 + " - " + ret2 + " = " + Rational.Subtract(ret1,ret2) );
         System.out.println( "Multiply:\t" + ret1 + " * " + ret2 + " = " + Rational.Multiply(ret1,ret2) );
