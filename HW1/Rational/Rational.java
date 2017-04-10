@@ -20,6 +20,11 @@ class Rational {
         this.denominator = deno;
         this.Simplify();
     }
+    public Rational () {
+        this.numerator = 0;
+        this.denominator = 1;
+        this.Simplify();
+    }
     public static Rational Add (Rational first, Rational second) {
         int num = first.numerator*second.denominator + first.denominator*second.numerator;
         int deno = first.denominator * second.denominator;
