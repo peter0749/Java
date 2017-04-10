@@ -4,4 +4,7 @@ Main.class: Rational.class
 Rational.class:
 	javac Rational.java
 clean:
-	rm -f Main.class Rational.class
+	rm -f Main.class Rational.class test.class
+test: test.java
+	javac test.java
+	java test
