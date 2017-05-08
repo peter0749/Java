@@ -10,7 +10,12 @@ public class Main {
         System.out.println(sph+" "+sph.getArea()+" "+sph.getVolume());
         Cube cube = new Cube(3,4,5);
         System.out.println(cube+" "+cube.getArea()+" "+cube.getVolume());
-        Tetrahedron tet = new Tetrahedron(1,2,3,4,5,6,7,8,9,10,11,12);
-        System.out.println(tet+" "+cube.getArea()+" "+cube.getVolume());
+        Tetrahedron tet = new Tetrahedron(0,0,0,
+                                          1,1,0,
+                                          0,1,1,
+                                          1,0,1);
+        System.out.println(tet);
+        System.out.println(tet.getArea());
+        System.out.println(tet.getVolume());
     }
 }

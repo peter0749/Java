@@ -44,7 +44,7 @@ public class Tetrahedron extends ThreeDimensionalShape {
     }
     @Override
     public String toString() {
-        return String.format("{\n (%.2f , %.2f , %.2f),\n ( %.2f , %.2f , %.2f),\n (%.2f , %.2f , %.2f),\n (%.2f , %.2f , %.2f)\n}\n", x1, y1, z1, x2, y2, z2, x3, y3, z3, x4, y4, z4);
+        return String.format("{\n (%.2f , %.2f , %.2f),\n ( %.2f , %.2f , %.2f),\n (%.2f , %.2f , %.2f),\n (%.2f , %.2f , %.2f)\n}", x1, y1, z1, x2, y2, z2, x3, y3, z3, x4, y4, z4);
     }
 
 }
