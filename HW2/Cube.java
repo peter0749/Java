@@ -17,6 +17,6 @@ public class Cube extends ThreeDimensionalShape {
     
     @Override
     public String toString() {
-        return String.format("(%.2f , %.2f , %.2f)", this.length, this.width, this.height);
+        return String.format("(length , width , height) : (%.2f , %.2f , %.2f)", this.length, this.width, this.height);
     }
 }

@@ -11,6 +11,6 @@ public class Square extends TwoDimensionalShape {
     
     @Override
     public String toString() {
-        return String.format("(%.2f , %.2f)", this.width, this.height);
+        return String.format("(width , height) : (%.2f , %.2f)", this.width, this.height);
     }
 }

@@ -14,6 +14,6 @@ public class Triangle extends TwoDimensionalShape {
     
     @Override
     public String toString() {
-        return String.format("(%.2f , %.2f , %.2f)", this.l1, this.l2, this.l3);
+        return String.format("(line1 , line2 , line3) : (%.2f , %.2f , %.2f)", this.l1, this.l2, this.l3);
     }
 }

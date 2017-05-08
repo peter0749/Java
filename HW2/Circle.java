@@ -8,6 +8,6 @@ public class Circle extends TwoDimensionalShape {
     
     @Override
     public String toString() {
-        return String.format("%.2f", this.radius);
+        return String.format("radius: %.2f", this.radius);
     }
 }
