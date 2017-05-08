@@ -8,7 +8,7 @@ public class Triangle extends TwoDimensionalShape {
     }
     @Override
     public double getArea() {
-        double s = (a+b+c)/2.0;
+        double s = (l1+l2+l3)/2.0;
         return Math.sqrt( s*(s-l1)*(s-l2)*(s-l3) );
     }
     
