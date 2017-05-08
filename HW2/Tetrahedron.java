@@ -3,6 +3,12 @@ public class Tetrahedron extends ThreeDimensionalShape {
     private double x2, y2, z2;
     private double x3, y3, z3;
     private double x4, y4, z4;
+    Tetrahedron(double x1, double y1, double z1, double x2, double y2, double z2, double x3, double y3, double z3, double x4, double y4, double z4) {
+        this.x1 = x1; this.y1 = y1; this.z1=z1;
+        this.x2 = x2; this.y2 = y2; this.z2=z2;
+        this.x3 = x3; this.y3 = y3; this.z3=z3;
+        this.x4 = x4; this.y4 = y4; this.z4=z4;
+    }
     private double _dist(double x1, double y1, double z1, double x2, double y2, double z2) {
         double a=x1-x2, b=y1-y2, c=z1-z2;
         return Math.sqrt( a*a + b*b + c*c );
@@ -38,7 +44,7 @@ public class Tetrahedron extends ThreeDimensionalShape {
     }
     @Override
     public String toString() {
-        return String.format("{(%.2f , %.2f , %.2f),(%.2f , %.2f , %.2f),(%.2f , %.2f , %.2f),(%.2f , %.2f , %.2f)}", x1, y1, z1, x2, y2, z2, x3, y3, z3, x4, y4, z4);
+        return String.format("{\n (%.2f , %.2f , %.2f),\n ( %.2f , %.2f , %.2f),\n (%.2f , %.2f , %.2f),\n (%.2f , %.2f , %.2f)\n}", x1, y1, z1, x2, y2, z2, x3, y3, z3, x4, y4, z4);
     }
 
 }
