@@ -1,15 +1,17 @@
 public class Main {
     public static void main(String[] args) {
-        Circle c = new Circle(3);
-        Square s = new Square(3,10);
-        Triangle t=  new Triangle(3,4,5);
-        Sphere sph = new Sphere(10);
-        Cube cube = new Cube(3,4,5);
+        if (args.length<1) return;
+        Double number = Double.parseDouble(args[0]);
+        Circle c = new Circle(number);
+        Square s = new Square(number);
+        Triangle t=  new Triangle(number,number,number);
+        Sphere sph = new Sphere(number);
+        Cube cube = new Cube(number,number,number);
         Tetrahedron tet = new Tetrahedron(
                                             0,0,0,
-                                            1,1,0,
-                                            0,1,1,
-                                            1,0,1
+                                            number,number,0,
+                                            0,number,number,
+                                            number,0,number
                                          );
         Shape[] shapeArray= { c, s, t, sph, cube, tet };
         for(Shape inst:shapeArray) {
