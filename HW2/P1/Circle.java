@@ -1,6 +1,9 @@
 public class Circle extends TwoDimensionalShape {
     private double radius;
-    Circle(double r) { this.radius=r; }
+    Circle(double r) { 
+        if (r<=0.0) throw new IllegalArgumentException("radius must > 0");
+        this.radius=r;
+    }
     @Override
     public double getArea() {
         return Math.PI*radius*radius;

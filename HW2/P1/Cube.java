@@ -1,22 +1,20 @@
 public class Cube extends ThreeDimensionalShape {
-    private double length, width, height;
-    Cube(double x, double y, double z) { 
+    private double length;
+    Cube(double x) { 
+        if (x<=0.0) throw new IllegalArgumentException("length must > 0");
         this.length = x;
-        this.width  = y;
-        this.height = z;
     }
     @Override
     public double getVolume() {
-        return length*width*height;
+        return length*length*length;
     }
     @Override
     public double getArea() {
-        double temp = length*width + length*height + width*height;
-        return temp*2.0;
+        return length*length*6.0;
     }
     
     @Override
     public String toString() {
-        return String.format("(length , width , height) : (%.2f , %.2f , %.2f)", this.length, this.width, this.height);
+        return String.format("(length) : (%.2f)", this.length);
     }
 }

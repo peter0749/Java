@@ -8,6 +8,7 @@ public class Tetrahedron extends ThreeDimensionalShape {
         this.x2 = x2; this.y2 = y2; this.z2=z2;
         this.x3 = x3; this.y3 = y3; this.z3=z3;
         this.x4 = x4; this.y4 = y4; this.z4=z4;
+        if (this.getVolume() <= 0.0 ) throw new IllegalArgumentException("Input led to volume of 0!");
     }
     private double _dist(double x1, double y1, double z1, double x2, double y2, double z2) {
         double a=x1-x2, b=y1-y2, c=z1-z2;
