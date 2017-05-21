@@ -229,7 +229,8 @@ public class PanelLayout extends JFrame implements KeyListener
                 if (inputText.charAt(i)!=context.charAt(i)) {
                     tempStr += "<font color=\"red\">";
                     char ch = context.charAt(i);
-                    tempStr += simpleEncoder( ch==' '?'_':ch );
+                    tempStr += simpleEncoder( (ch==' '||ch=='\n')?'_':ch );
+                    if (ch=='\n') tempStr += simpleEncoder('\n');
                     tempStr += "</font>";
                 } else {
                     tempStr += "<font color=\"green\">";
@@ -251,9 +252,10 @@ public class PanelLayout extends JFrame implements KeyListener
     }
     private String computeAccuracy() {
         int wrong=0;
-        for (int i=0; i<context.length(); ++i)
-            if (i>=inputText.length() || inputText.charAt(i)!=context.charAt(i))
+        for (int i=0; i<context.length() && i<inputText.length(); ++i)
+            if (inputText.charAt(i)!=context.charAt(i))
                 ++wrong;
+        wrong += (inputText.length()<context.length()?context.length()-inputText.length():0);
         return String.format("%d / %d", (context.length()-wrong), context.length());
     }
 }
