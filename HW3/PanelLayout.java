@@ -1,3 +1,4 @@
+import java.io.*;
 import java.awt.Color;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
@@ -7,12 +8,15 @@ import java.awt.GridLayout;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import javax.swing.BoxLayout;
+import javax.swing.text.DefaultCaret;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
+import javax.swing.JScrollPane;
+import javax.swing.JScrollBar;
 import java.util.Map;
 import java.util.HashMap;
 import javax.swing.JOptionPane;
@@ -45,11 +49,40 @@ public class PanelLayout extends JFrame implements KeyListener
     private final Color[] oldColor;
     private String inputText;
     private boolean capital;
+    private File file;
+    private BufferedReader reader;
+    private final JScrollBar verticalSample;
+    private final JScrollPane sampleScroll;
 
     public PanelLayout() {
         super("Type Tutor");
         final int buttonNum = 57;
         final int panelNum  = 8;
+        File file = new File("context.txt");
+        BufferedReader reader = null;
+        String fullText = new String("");
+        // try to open file
+
+        try {
+            reader = new BufferedReader(new FileReader(file));
+            String textLine = null;
+            while ((textLine = reader.readLine()) != null) {
+                fullText += (textLine+"\n");
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (reader != null) {
+                    reader.close();
+                }
+            } catch (IOException e) {
+                // do nothing
+            }
+        }
+
         // Initialize buttonName:
 
         inputText = new String("");
@@ -106,19 +139,20 @@ public class PanelLayout extends JFrame implements KeyListener
         buttonPanels[0].setLayout(new BorderLayout());
         buttonPanels[0].add(infoText, BorderLayout.WEST);
         getAccuracy = new JLabel("Get Accuracy");
-        buttonPanels[0].add(getAccuracy, BorderLayout.EAST);
+        buttonPanels[0].add( new JScrollPane(getAccuracy, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED) , BorderLayout.EAST);
         mainPanel.add(buttonPanels[0]);
         buttonPanels[1] = new JPanel();
         buttonPanels[1].setLayout(new BorderLayout());
         typeIn = new JTextArea();
-        typeIn.setEnabled(false);
-        buttonPanels[1].add(typeIn, BorderLayout.CENTER);
+        buttonPanels[1].add( new JScrollPane(typeIn, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED) , BorderLayout.CENTER);
         mainPanel.add(buttonPanels[1]);
         buttonPanels[2] = new JPanel();
         buttonPanels[2].setLayout(new BorderLayout());
-        context = new String("The quick brown fox jumped over a lazy dog.");
-        sampleText = new JLabel("<html> Target: <br/>"+context+" </html>");
-        buttonPanels[2].add(sampleText, BorderLayout.WEST);
+        context = fullText;
+        sampleText = new JLabel("Press any key...");
+        sampleScroll = new JScrollPane(sampleText, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        verticalSample = sampleScroll.getVerticalScrollBar();
+        buttonPanels[2].add( sampleScroll , BorderLayout.CENTER);
         mainPanel.add(buttonPanels[2]);
         for (int pLev=3, bLev=0, buttCount=0; pLev!=buttonPanels.length; ++pLev, ++bLev) {
             buttonPanels[pLev] = new JPanel(new GridLayout(1, buttonLevel[bLev], 0, 0));
@@ -189,11 +223,13 @@ public class PanelLayout extends JFrame implements KeyListener
                 inputText += (capital?tempStr.toUpperCase():tempStr.toLowerCase());
         }
         tempStr = new String("");
-        for (int i=0; i<context.length(); ++i) {
+        final int max_charNum = 300;
+        for (int i=inputText.length()>max_charNum?inputText.length()-max_charNum:0; i<context.length() && i<inputText.length()+30; ++i) {
             if(i<inputText.length()) {
                 if (inputText.charAt(i)!=context.charAt(i)) {
                     tempStr += "<font color=\"red\">";
-                    tempStr += simpleEncoder(context.charAt(i));
+                    char ch = context.charAt(i);
+                    tempStr += simpleEncoder( ch==' '?'_':ch );
                     tempStr += "</font>";
                 } else {
                     tempStr += "<font color=\"green\">";
@@ -203,9 +239,11 @@ public class PanelLayout extends JFrame implements KeyListener
             } else {
                 tempStr += simpleEncoder(context.charAt(i));
             }
+            if (i!=0&&i%80==0) tempStr+="-<br/>";
         }
         typeIn.setText(inputText);
-        sampleText.setText("<html>"+tempStr+"</html>");
+        sampleText.setText("<html><div>"+tempStr+"</div></html>");
+        verticalSample.setValue( verticalSample.getMaximum() );
         return !(inputText.length() > context.length() || 
                 (inputText.length()>0 &&
                  inputText.charAt(inputText.length()-1)!=
