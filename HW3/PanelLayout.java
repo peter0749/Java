@@ -144,6 +144,7 @@ public class PanelLayout extends JFrame implements KeyListener
         buttonPanels[1] = new JPanel();
         buttonPanels[1].setLayout(new BorderLayout());
         typeIn = new JTextArea();
+        typeIn.setEnabled(false);
         buttonPanels[1].add( new JScrollPane(typeIn, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED) , BorderLayout.CENTER);
         mainPanel.add(buttonPanels[1]);
         buttonPanels[2] = new JPanel();
