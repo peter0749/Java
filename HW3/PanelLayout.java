@@ -165,6 +165,7 @@ public class PanelLayout extends JFrame implements KeyListener
         }
         add(mainPanel);
         this.setFocusable(true);
+        this.setFocusTraversalKeysEnabled(false); // disable built-in behavior
         addKeyListener(this);
     }
     @Override
@@ -217,6 +218,18 @@ public class PanelLayout extends JFrame implements KeyListener
                 break;
             case KeyEvent.VK_ENTER:
                 inputText += "\n";
+                break;
+            case KeyEvent.VK_UP:
+                inputText += "↑";
+                break;
+            case KeyEvent.VK_DOWN:
+                inputText += "↓";
+                break;
+            case KeyEvent.VK_LEFT:
+                inputText += "←";
+                break;
+            case KeyEvent.VK_RIGHT :
+                inputText += "→";
                 break;
             default:
                 tempStr = new String(""+event.getKeyChar());
