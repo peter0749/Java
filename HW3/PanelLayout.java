@@ -57,7 +57,7 @@ public class PanelLayout extends JFrame implements KeyListener
     public PanelLayout() {
         super("Type Tutor");
         final int buttonNum = 57;
-        final int panelNum  = 8;
+        final int panelNum  = 10;
         File file = new File("context.txt");
         BufferedReader reader = null;
         String fullText = new String("");
@@ -102,7 +102,7 @@ public class PanelLayout extends JFrame implements KeyListener
                 "Enter", "Shift", "Z", "X",
                 "C", "V", "B", "N",
                 "M", ",", ".", "/?",
-                "Space", "↑", "←", "↓", "→"
+                "↑", "←", "↓", "→", "Space"
         };
 
         keyCodes = new int[]{
@@ -111,10 +111,10 @@ public class PanelLayout extends JFrame implements KeyListener
                 89 , 85, 73, 79, 80, 91, 93, 92, 20, 65,
                 83 , 68, 70, 71, 72, 74, 75, 76, 59, 222,
                 10 , 16, 90, 88, 67, 86, 66, 78, 77, 44,
-                46 , 47, 32, 38, 37, 40, 39
+                46 , 47, 38, 37, 40, 39, 32
         };
 
-        buttonLevel = new int[]{ 14, 14, 13, 11, 5 };
+        buttonLevel = new int[]{ 14, 14, 13, 11, 1, 3, 1 };
 
         int buttonLevSum = 0;
         for (int v: buttonLevel) buttonLevSum+=v;
@@ -155,12 +155,26 @@ public class PanelLayout extends JFrame implements KeyListener
         verticalSample = sampleScroll.getVerticalScrollBar();
         buttonPanels[2].add( sampleScroll , BorderLayout.CENTER);
         mainPanel.add(buttonPanels[2]);
-        for (int pLev=3, bLev=0, buttCount=0; pLev!=buttonPanels.length; ++pLev, ++bLev) {
+        int buttCount=0, bLev=0, pLev=3;
+        for (; pLev!=buttonPanels.length; ++pLev, ++bLev) {
             buttonPanels[pLev] = new JPanel(new GridLayout(1, buttonLevel[bLev], 0, 0));
+            if (bLev==5) {
+                int n=buttonLevel[3]-buttonLevel[5];
+                while(n-->0) buttonPanels[pLev].add(new JLabel());
+            } else if (bLev==4) {
+                int n=9;
+                while(n-->0) buttonPanels[pLev].add(new JLabel());
+            }
             for (int i=0; i!=buttonLevel[bLev]; ++i, ++buttCount) {
                 buttons[buttCount] = new JButton( buttonName[buttCount] );
                 buttons[buttCount].setEnabled(false);
                 buttonPanels[pLev].add(buttons[buttCount]);
+            }
+            if (bLev==3) {
+                buttonPanels[pLev].add(new JLabel());
+                buttonPanels[pLev].add(new JLabel());
+            } else if (bLev==4) {
+                buttonPanels[pLev].add(new JLabel());
             }
             mainPanel.add(buttonPanels[pLev]);
         }
