@@ -53,6 +53,7 @@ public class PanelLayout extends JFrame implements KeyListener
     private BufferedReader reader;
     private final JScrollBar verticalSample;
     private final JScrollPane sampleScroll;
+    private boolean[] keyPressedMap;
 
     public PanelLayout() {
         super("Type Tutor");
@@ -115,6 +116,8 @@ public class PanelLayout extends JFrame implements KeyListener
         };
 
         buttonLevel = new int[]{ 14, 14, 13, 11, 1, 3, 1 };
+        keyPressedMap = new boolean[keyCodes.length];
+        for (int i=0; i!=keyPressedMap.length; ++i) keyPressedMap[i]=false;
 
         int buttonLevSum = 0;
         for (int v: buttonLevel) buttonLevSum+=v;
@@ -193,7 +196,8 @@ public class PanelLayout extends JFrame implements KeyListener
     @Override
     public void keyPressed(KeyEvent event) {
         Integer butt_idx = revKeyCodes.get(event.getKeyCode());
-        if (butt_idx==null) return;
+        if (butt_idx==null || keyPressedMap[butt_idx]) return;
+        keyPressedMap[butt_idx]=true;
         oldColor[butt_idx] = buttons[butt_idx].getBackground();
         if (event.getKeyCode()==KeyEvent.VK_CAPS_LOCK || event.getKeyCode()==KeyEvent.VK_SHIFT) {
             buttons[butt_idx].setBackground(Color.BLUE);
@@ -209,7 +213,8 @@ public class PanelLayout extends JFrame implements KeyListener
     @Override
     public void keyReleased(KeyEvent event) {
         Integer butt_idx = revKeyCodes.get(event.getKeyCode());
-        if (butt_idx==null) return;
+        if (butt_idx==null || !keyPressedMap[butt_idx]) return;
+        keyPressedMap[butt_idx] = false;
         if (event.getKeyCode()==KeyEvent.VK_SHIFT) capital=!capital;
         buttons[butt_idx].setBackground(oldColor[butt_idx]);
         buttons[butt_idx].setOpaque(true);
