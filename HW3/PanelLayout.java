@@ -162,7 +162,7 @@ public class PanelLayout extends JFrame implements KeyListener
                 int n=buttonLevel[3]-buttonLevel[5];
                 while(n-->0) buttonPanels[pLev].add(new JLabel());
             } else if (bLev==4) {
-                int n=9;
+                int n=buttonLevel[3]-2;
                 while(n-->0) buttonPanels[pLev].add(new JLabel());
             }
             for (int i=0; i!=buttonLevel[bLev]; ++i, ++buttCount) {
