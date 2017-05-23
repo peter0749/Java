@@ -40,7 +40,7 @@ public class PanelLayout extends JFrame implements KeyListener
     private final JTextArea typeIn;
     private final JPanel[] buttonPanels;
     private final JPanel mainPanel;
-    private final JLabel getAccuracy;
+    private final JButton getAccuracy;
     private final JButton[] buttons;
     private final String[] buttonName;
     private final int[] buttonLevel;
@@ -138,8 +138,15 @@ public class PanelLayout extends JFrame implements KeyListener
         buttonPanels[0] = new JPanel();
         buttonPanels[0].setLayout(new BorderLayout());
         buttonPanels[0].add(infoText, BorderLayout.WEST);
-        getAccuracy = new JLabel("Get Accuracy");
-        buttonPanels[0].add( new JScrollPane(getAccuracy, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED) , BorderLayout.EAST);
+        getAccuracy = new JButton("Get Accuracy");
+        getAccuracy.addActionListener( new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(PanelLayout.this, "Accuracy: " + PanelLayout.this.computeAccuracy());
+                PanelLayout.this.requestFocus();
+            }
+        });
+        buttonPanels[0].add( getAccuracy );
         mainPanel.add(buttonPanels[0]);
         buttonPanels[1] = new JPanel();
         buttonPanels[1].setLayout(new BorderLayout());
@@ -211,7 +218,6 @@ public class PanelLayout extends JFrame implements KeyListener
     @Override
     public void keyTyped(KeyEvent event) {
         String acc = computeAccuracy();
-        getAccuracy.setText("<html>Accuracy:<br/>"+acc+"</html>");
         // do nothing
     }
 
